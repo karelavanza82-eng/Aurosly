@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Aurora paw logo -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group android:pivotX="50" android:pivotY="50" android:scaleX="0.82" android:scaleY="0.82" android:translateX="4" android:translateY="4">
+        <path android:fillColor="#000000" android:fillType="evenOdd" android:pathData="M50,14.70 A35.30,35.30 0 1,1 50,85.30 A35.30,35.30 0 1,1 50,14.70 Z M50,20.30 A29.70,29.70 0 1,0 50,79.70 A29.70,29.70 0 1,0 50,20.30 Z" />
+        <path android:fillColor="#000000" android:pathData="M49.60,45.70 C54.00,45.70 57.00,47.80 59.00,51.20 C61.00,54.50 63.60,58.00 63.60,61.00 C63.60,64.80 60.80,67.20 57.00,67.20 C54.00,67.20 52.00,64.30 49.60,64.30 C47.40,64.30 45.50,66.90 42.40,66.90 C38.60,66.90 35.90,64.40 35.90,61.00 C35.90,58.00 37.60,55.00 39.60,51.60 C41.80,47.80 45.20,45.70 49.60,45.70 Z" />
+        <path android:fillColor="#000000" android:pathData="M30.26,41.76 C32.87,40.55 36.11,42.00 37.51,45.00 C38.91,48.01 37.94,51.42 35.34,52.64 C32.73,53.85 29.49,52.40 28.09,49.40 C26.69,46.39 27.66,42.98 30.26,41.76 Z" />
+        <path android:fillColor="#000000" android:pathData="M41.64,30.07 C44.76,29.63 47.71,32.33 48.24,36.11 C48.77,39.88 46.68,43.29 43.56,43.73 C40.44,44.17 37.49,41.47 36.96,37.69 C36.43,33.92 38.52,30.51 41.64,30.07 Z" />
+        <path android:fillColor="#000000" android:pathData="M58.17,30.67 C61.24,31.10 63.28,34.55 62.75,38.38 C62.21,42.21 59.29,44.96 56.23,44.53 C53.16,44.10 51.12,40.65 51.65,36.82 C52.19,32.99 55.11,30.24 58.17,30.67 Z" />
+        <path android:fillColor="#000000" android:pathData="M69.70,43.08 C72.28,44.57 73.08,48.03 71.48,50.80 C69.87,53.57 66.48,54.61 63.90,53.12 C61.32,51.63 60.52,48.17 62.12,45.40 C63.73,42.63 67.12,41.59 69.70,43.08 Z" />
+    </group>
+</vector>

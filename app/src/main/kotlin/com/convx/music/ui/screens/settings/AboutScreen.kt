@@ -1,6 +1,7 @@
 /**
  * Convx Project (C) 2026
  * Licensed under GPL-3.0 | See git history for contributors
+ * Modified for Aurora by muhamadkarel.
  */
 
 package com.convx.music.ui.screens.settings
@@ -8,77 +9,62 @@ package com.convx.music.ui.screens.settings
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import com.convx.music.ui.utils.bounceClick
-import com.convx.music.ui.utils.combinedBounceClick
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.BugReport
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.History
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.MaterialShapes
-import com.convx.music.ui.ios.compat.AppTheme
-import com.convx.music.ui.ios.compat.Surface
-import com.convx.music.ui.ios.compat.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
-import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import com.composables.sfsymbols.SfSymbols
-import com.composables.sfsymbols.monochrome.SFArrowDownApp
-import com.composables.sfsymbols.monochrome.SFChevronLeftForwardslashChevronRight
-import com.composables.sfsymbols.monochrome.SFEllipsisBubble
-import com.composables.sfsymbols.monochrome.SFHeart
-import com.composables.sfsymbols.monochrome.SFInfoCircle
-import com.composables.sfsymbols.monochrome.SFPersonCropCircleBadgeExclamationmark
-import com.composables.sfsymbols.monochrome.SFTextDocument
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.convx.music.BuildConfig
-import com.convx.music.LocalPlayerAwareWindowInsets
-import com.convx.music.constants.DonationKofiUrl
-import com.convx.music.constants.DonationUpiId
-import com.convx.music.constants.DonationUpiUri
+import com.composables.sfsymbols.SfSymbols
+import com.composables.sfsymbols.monochrome.SFArrowDownApp
+import com.composables.sfsymbols.monochrome.SFInfoCircle
+import com.composables.sfsymbols.monochrome.SFMappin
+import com.composables.sfsymbols.monochrome.SFPersonCropCircle
 import com.convx.music.R
 import com.convx.music.ui.component.IosSettingsGroup
 import com.convx.music.ui.component.IosSettingsItem
-import com.convx.music.ui.utils.backToMain
+import com.convx.music.ui.ios.compat.AppTheme
+import com.convx.music.ui.ios.compat.Text
+import com.convx.music.ui.theme.ChillaxFontFamily
 import com.convx.music.ui.utils.safeOpenUri
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+private const val DEVELOPER_NAME = "muhamadkarel"
+private const val DEVELOPER_LOCATION = "Sragen, Jawa Tengah, Indonesia"
+private const val WHATSAPP_DISPLAY = "085804667658"
+private const val WHATSAPP_URL = "https://wa.me/6285804667658"
+private const val INSTAGRAM_HANDLE = "@karelvnmry"
+private const val INSTAGRAM_URL = "https://www.instagram.com/karelvnmry"
+const val AURORA_DISPLAY_VERSION = "Android v1.0"
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutScreen(
     navController: NavController,
@@ -89,13 +75,10 @@ fun AboutScreen(
     val context = LocalContext.current
     val unknownString = stringResource(R.string.unknown)
 
-    val cookieShape = MaterialShapes.Cookie7Sided.toShape()
-    
     val installedDate = remember {
         try {
             val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-            val installTime = packageInfo.firstInstallTime
-            SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(Date(installTime))
+            SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date(packageInfo.firstInstallTime))
         } catch (_: Exception) {
             unknownString
         }
@@ -108,130 +91,140 @@ fun AboutScreen(
         pageColor = AppTheme.colorScheme.background,
         horizontalPadding = 16.dp,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = stringResource(R.string.convx_title),
-                style = AppTheme.typography.displaySmall.copy(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 48.sp,
-                    letterSpacing = 2.sp
-                ),
-                color = AppTheme.colorScheme.onSurface
-            )
+        AuroraAboutHeader()
 
-            Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
-            Row(
-                modifier = Modifier
-                    .border(
-                        width = 1.5.dp,
-                        color = AppTheme.colorScheme.primary.copy(alpha = 0.5f),
-                        shape = CircleShape
-                    )
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.convx_logo),
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp),
-                    colorFilter = ColorFilter.tint(AppTheme.colorScheme.primary)
-                )
-
-                Text(
-                    text = "v${BuildConfig.VERSION_NAME} • ${stringResource(if (BuildConfig.IS_NIGHTLY) R.string.build_nightly else R.string.build_stable)}",
-                    style = AppTheme.typography.titleMedium,
-                    color = AppTheme.colorScheme.primary
-                )
-            }
-        }
-        
-        // Developer Section
         IosSettingsGroup(
-            title = stringResource(R.string.developer_section),
+            title = "PENGEMBANG",
             items = listOf(
                 IosSettingsItem(
-                    icon = rememberVectorPainter(SfSymbols.Monochrome.SFPersonCropCircleBadgeExclamationmark),
-                    title = { Text(stringResource(R.string.developer_name)) },
-                    description = { Text(stringResource(R.string.app_developer), color = AppTheme.colorScheme.primary) },
-                    tintIcon = false,
-                    iconShape = cookieShape,
-                    onClick = { uriHandler.safeOpenUri(context, "https://github.com/cosmictaserdev-creator") }
-                )
-            )
-        )
-        Spacer(modifier = Modifier.height(27.dp))
-
-        // Community Section
-        IosSettingsGroup(
-            title = stringResource(R.string.community_section),
-            items = listOf(
-                IosSettingsItem(
-                    icon = rememberVectorPainter(SfSymbols.Monochrome.SFChevronLeftForwardslashChevronRight),
-                    title = { Text(stringResource(R.string.github_repository)) },
-                    description = { Text(stringResource(R.string.view_source_code)) },
-                    onClick = { uriHandler.safeOpenUri(context, "https://github.com/cosmictaserdev-creator/Convx") }
+                    icon = rememberVectorPainter(SfSymbols.Monochrome.SFPersonCropCircle),
+                    title = { Text(DEVELOPER_NAME) },
+                    description = { Text("Pengembang Aurora", color = AppTheme.colorScheme.primary) },
                 ),
                 IosSettingsItem(
-                    icon = rememberVectorPainter(SfSymbols.Monochrome.SFEllipsisBubble),
-                    title = { Text(stringResource(R.string.discord_channel)) },
-                    description = { Text(stringResource(R.string.join_discord)) },
-                    onClick = { uriHandler.safeOpenUri(context, "https://discord.gg/Ejeb4cmzfd") }
-                )
+                    icon = rememberVectorPainter(SfSymbols.Monochrome.SFMappin),
+                    title = { Text("Dibuat di") },
+                    description = { Text(DEVELOPER_LOCATION) },
+                ),
             )
         )
 
         Spacer(modifier = Modifier.height(27.dp))
 
-        // Support Section
         IosSettingsGroup(
-            title = stringResource(R.string.support_section),
+            title = "KONTAK",
             items = listOf(
                 IosSettingsItem(
-                    icon = rememberVectorPainter(SfSymbols.Monochrome.SFHeart),
-                    title = { Text(stringResource(R.string.support_upi)) },
-                    description = { Text(DonationUpiId) },
-                    onClick = { uriHandler.safeOpenUri(context, DonationUpiUri) }
+                    icon = painterResource(R.drawable.ic_whatsapp),
+                    title = { Text("WhatsApp") },
+                    description = { Text(WHATSAPP_DISPLAY, color = AppTheme.colorScheme.primary) },
+                    onClick = { uriHandler.safeOpenUri(context, WHATSAPP_URL) }
                 ),
                 IosSettingsItem(
-                    icon = rememberVectorPainter(SfSymbols.Monochrome.SFHeart),
-                    title = { Text(stringResource(R.string.support_kofi)) },
-                    description = { Text(stringResource(R.string.support_kofi_desc)) },
-                    onClick = { uriHandler.safeOpenUri(context, DonationKofiUrl) }
+                    icon = painterResource(R.drawable.ic_instagram),
+                    title = { Text("Instagram") },
+                    description = { Text(INSTAGRAM_HANDLE, color = AppTheme.colorScheme.primary) },
+                    onClick = { uriHandler.safeOpenUri(context, INSTAGRAM_URL) }
                 ),
             )
         )
+
         Spacer(modifier = Modifier.height(27.dp))
 
-        // App Information Section
         IosSettingsGroup(
             title = stringResource(R.string.app_info_section),
             items = listOf(
+                IosSettingsItem(
+                    icon = rememberVectorPainter(SfSymbols.Monochrome.SFInfoCircle),
+                    title = { Text("Versi") },
+                    description = { Text(AURORA_DISPLAY_VERSION) }
+                ),
                 IosSettingsItem(
                     icon = rememberVectorPainter(SfSymbols.Monochrome.SFArrowDownApp),
                     title = { Text(stringResource(R.string.installed_date_title)) },
                     description = { Text(installedDate) }
                 ),
-                IosSettingsItem(
-                    icon = rememberVectorPainter(SfSymbols.Monochrome.SFInfoCircle),
-                    title = { Text(stringResource(R.string.version_code)) },
-                    description = { Text(BuildConfig.VERSION_CODE.toString()) }
-                ),
-                IosSettingsItem(
-                    icon = rememberVectorPainter(SfSymbols.Monochrome.SFTextDocument),
-                    title = { Text(stringResource(R.string.license)) },
-                    description = { Text("GPL-3.0 • Free Open Source Software") },
-                    onClick = { uriHandler.safeOpenUri(context, "https://github.com/cosmictaserdev-creator/Convx/blob/main/LICENSE") }
-                ),
             )
         )
-        Spacer(modifier = Modifier.height(20.dp))
-    
+
+        Spacer(modifier = Modifier.height(28.dp))
+
+        Text(
+            text = "Proyek ini berada di Indonesia",
+            style = AppTheme.typography.bodyMedium,
+            color = AppTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(),
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+    }
+}
+
+/** Liquid-glass hero card: logo, wordmark and version pill. */
+@Composable
+private fun AuroraAboutHeader() {
+    val onSurface = AppTheme.colorScheme.onSurface
+    val glassShape = RoundedCornerShape(28.dp)
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp)
+            .clip(glassShape)
+            .background(
+                Brush.verticalGradient(
+                    listOf(
+                        onSurface.copy(alpha = 0.08f),
+                        onSurface.copy(alpha = 0.03f),
+                    )
+                )
+            )
+            .border(1.dp, onSurface.copy(alpha = 0.12f), glassShape)
+            .padding(vertical = 32.dp, horizontal = 20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Box(
+            modifier = Modifier
+                .size(88.dp)
+                .clip(CircleShape)
+                .background(Color.White),
+            contentAlignment = Alignment.Center,
+        ) {
+            Image(
+                painter = painterResource(R.drawable.convx_logo),
+                contentDescription = "Logo Aurora",
+                colorFilter = ColorFilter.tint(Color.Black),
+                modifier = Modifier.size(80.dp),
+            )
+        }
+
+        Spacer(modifier = Modifier.height(18.dp))
+
+        Text(
+            text = "Aurora",
+            fontFamily = ChillaxFontFamily,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 40.sp,
+            letterSpacing = 1.sp,
+            color = onSurface,
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Row(
+            modifier = Modifier
+                .border(1.dp, AppTheme.colorScheme.primary.copy(alpha = 0.5f), CircleShape)
+                .padding(horizontal = 16.dp, vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Text(
+                text = AURORA_DISPLAY_VERSION,
+                style = AppTheme.typography.titleMedium,
+                color = AppTheme.colorScheme.primary,
+            )
+        }
     }
 }

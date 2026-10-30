@@ -491,14 +491,14 @@ fun WelcomePagerScreen(onFinished: () -> Unit) {
                     Spacer(modifier = Modifier.height(80.dp))
 
                     Text(
-                        text = "Join our",
+                        text = "Selamat datang di",
                         style = thinHeaderStyle,
                         color = AppTheme.colorScheme.onBackground
                     )
                     Text(
-                        text = "Community",
-                        fontFamily = GoogleSansFlex,
-                        fontWeight = FontWeight.Bold,
+                        text = "Aurora",
+                        fontFamily = com.convx.music.ui.theme.ChillaxFontFamily,
+                        fontWeight = FontWeight.SemiBold,
                         fontSize = 48.sp,
                         color = AppTheme.colorScheme.primary,
                         lineHeight = 56.sp
@@ -507,7 +507,7 @@ fun WelcomePagerScreen(onFinished: () -> Unit) {
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text = "Convx is open-source and depends on community support to grow. Your help makes a difference!",
+                        text = "Pemutar musik premium yang ringan dan lancar. Proyek ini berada di Indonesia.",
                         style = AppTheme.typography.bodyLarge.copy(
                             fontFamily = GoogleSansFlex
                         ),
@@ -521,37 +521,6 @@ fun WelcomePagerScreen(onFinished: () -> Unit) {
                             .fillMaxWidth()
                             .verticalScroll(rememberScrollState())
                     ) {
-                        PermissionCard(
-                            icon = rememberVectorPainter(Icons.Rounded.Star),
-                            iconColor = Color(0xFFfff1a8),
-                            iconTint = Color(0xFF8d6e00),
-                            title = "Star on GitHub",
-                            description = "Help us reach more people by starring our repository.",
-                            shape = topCardShape,
-                            control = {
-                                SymbolIcon(symbol = sf("chevron.right"), contentDescription = null, tint = AppTheme.colorScheme.onSurfaceVariant)
-                            },
-                            onClick = {
-                                uriHandler.safeOpenUri(context, "https://github.com/cosmictaserdev-creator/Convx")
-                            }
-                        )
-
-                        Spacer(modifier = Modifier.height(2.dp))
-
-                        PermissionCard(
-                            icon = rememberVectorPainter(SfSymbols.Monochrome.SFEllipsisBubble),
-                            iconColor = Color(0xFF67d4ff),
-                            iconTint = Color(0xFF004e5d),
-                            title = "Join Discord",
-                            description = "Get the latest updates and chat with the community.",
-                            shape = bottomCardShape,
-                            control = {
-                                SymbolIcon(symbol = sf("chevron.right"), contentDescription = null, tint = AppTheme.colorScheme.onSurfaceVariant)
-                            },
-                            onClick = {
-                                uriHandler.safeOpenUri(context, "https://discord.gg/Ejeb4cmzfd")
-                            }
-                        )
 
                         Spacer(modifier = Modifier.height(100.dp))
                     }

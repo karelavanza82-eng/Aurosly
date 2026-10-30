@@ -29,6 +29,11 @@ import com.convx.music.constants.AudioQualityKey
 import com.convx.music.constants.AutoDjMixingEnabledKey
 import com.convx.music.constants.AutoDownloadOnLikeKey
 import com.convx.music.constants.AutoSkipNextOnErrorKey
+import com.convx.music.constants.BitPerfectKey
+import com.convx.music.constants.DataSaverEnabledKey
+import com.convx.music.constants.OfflineModeKey
+import com.convx.music.constants.SongFilter
+import com.convx.music.constants.SongFilterKey
 import com.convx.music.constants.CrossfadeEnabledKey
 import com.convx.music.constants.EnableGoogleCastKey
 import com.convx.music.constants.KeepScreenOn
@@ -56,6 +61,11 @@ fun PlayerSettings(
         AudioQualityKey,
         defaultValue = AudioQuality.AUTO
     )
+    val (bitPerfect, onBitPerfectChange) = rememberPreference(BitPerfectKey, defaultValue = false)
+    val (dataSaver, onDataSaverChange) = rememberPreference(DataSaverEnabledKey, defaultValue = false)
+    val (offlineMode, onOfflineModeChange) = rememberPreference(OfflineModeKey, defaultValue = false)
+    val (_, onSongFilterChange) = rememberEnumPreference(SongFilterKey, SongFilter.LIKED)
+    val losslessEnabled = audioQuality == AudioQuality.HIGH && bitPerfect && !dataSaver
     val (crossfadeEnabled) = rememberPreference(
         CrossfadeEnabledKey,
         defaultValue = false
@@ -149,6 +159,79 @@ fun PlayerSettings(
     ) {
         item(key = "player_settings_content") {
             Column {
+                IosSettingsGroup(
+                    title = "Aurora",
+                    items = listOf(
+                        IosSettingsItem(
+                            icon = painterResource(R.drawable.graphic_eq),
+                            title = { Text("Lossless Quality") },
+                            description = {
+                                Text("Kualitas audio tertinggi tanpa pemrosesan (bit-perfect) agar suara lebih original.")
+                            },
+                            trailingContent = {
+                                Switch(
+                                    checked = losslessEnabled,
+                                    onCheckedChange = { enable ->
+                                        if (enable) {
+                                            onAudioQualityChange(AudioQuality.HIGH)
+                                            onBitPerfectChange(true)
+                                            onAudioNormalizationChange(false)
+                                            onDataSaverChange(false)
+                                            onOfflineModeChange(false)
+                                        } else {
+                                            onBitPerfectChange(false)
+                                            onAudioQualityChange(AudioQuality.AUTO)
+                                        }
+                                    }
+                                )
+                            },
+                            onClick = {
+                                if (!losslessEnabled) {
+                                    onAudioQualityChange(AudioQuality.HIGH)
+                                    onBitPerfectChange(true)
+                                    onAudioNormalizationChange(false)
+                                    onDataSaverChange(false)
+                                    onOfflineModeChange(false)
+                                } else {
+                                    onBitPerfectChange(false)
+                                    onAudioQualityChange(AudioQuality.AUTO)
+                                }
+                            }
+                        ),
+                        IosSettingsItem(
+                            icon = painterResource(R.drawable.offline),
+                            title = { Text(if (offlineMode) "Mode Offline" else "Mode Online") },
+                            description = {
+                                Text(
+                                    if (offlineMode) {
+                                        "Tanpa data: memutar lagu yang sudah diunduh dan tidak memakai kuota."
+                                    } else {
+                                        "Streaming aktif. Nyalakan untuk mendengarkan tanpa data."
+                                    }
+                                )
+                            },
+                            trailingContent = {
+                                Switch(
+                                    checked = offlineMode,
+                                    onCheckedChange = { enable ->
+                                        onOfflineModeChange(enable)
+                                        onDataSaverChange(enable)
+                                        if (enable) onSongFilterChange(SongFilter.DOWNLOADED)
+                                    }
+                                )
+                            },
+                            onClick = {
+                                val enable = !offlineMode
+                                onOfflineModeChange(enable)
+                                onDataSaverChange(enable)
+                                if (enable) onSongFilterChange(SongFilter.DOWNLOADED)
+                            }
+                        ),
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(27.dp))
+
                 IosSettingsGroup(
                     title = "Sound",
                     items = buildList {

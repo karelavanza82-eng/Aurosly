@@ -958,7 +958,6 @@ internal fun AppRootContent(
                             )
                         }
 
-                        com.convx.music.ui.component.DonationPromptHost()
                         // Keep full-screen tools clear of the rail overlay.
 
                         if (showRail && !isSettingsRoute && currentRoute != "ambient_mode") {

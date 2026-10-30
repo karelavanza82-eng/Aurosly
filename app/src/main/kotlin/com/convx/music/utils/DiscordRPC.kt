@@ -52,17 +52,17 @@ class DiscordRPC(
         val buttonsList = mutableListOf<Pair<String, String>>()
         if (button1Visible) {
             val resolvedText = resolveVariables(
-                button1Text.ifEmpty { "Listen on Convx" },
+                button1Text.ifEmpty { "Listen on Aurora" },
                 song
             )
             buttonsList.add(resolvedText to ShareUtils.songUrl(song.song.id))
         }
         if (button2Visible) {
             val resolvedText = resolveVariables(
-                button2Text.ifEmpty { "Visit Convx" },
+                button2Text.ifEmpty { "Visit Aurora" },
                 song
             )
-            buttonsList.add(resolvedText to "https://github.com/cosmictaserdev-creator/Convx")
+            buttonsList.add(resolvedText to "https://github.com/karelavanza82-eng/Aurosly")
         }
 
         val type = when (activityType) {

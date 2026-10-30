@@ -189,6 +189,9 @@ enum class AudioQuality {
 
 val AudioOffload = booleanPreferencesKey("enableOffload")
 
+/** Aurora offline mode: no streaming data, library opens on downloaded songs. */
+val OfflineModeKey = booleanPreferencesKey("auroraOfflineMode")
+
 /** Bit Perfect: forces EQ/silence-skip/speed-pitch processing and crossfade off so
  *  decoded samples reach the sink unmodified, and forces audio offload on. Master
  *  switch — wins over those other settings' own toggles while it's active. */

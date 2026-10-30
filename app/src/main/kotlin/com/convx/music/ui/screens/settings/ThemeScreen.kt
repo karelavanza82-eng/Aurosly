@@ -216,6 +216,10 @@ fun PortraitThemeLayout(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        LiquidGlassThemePresets()
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         HomeBackgroundControls()
 
 
@@ -311,6 +315,10 @@ fun LandscapeThemeLayout(
                 onClick = onFontClick,
                 modifier = Modifier.fillMaxWidth(),
             )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            LiquidGlassThemePresets(modifier = Modifier.fillMaxWidth())
 
             Spacer(modifier = Modifier.height(16.dp))
 

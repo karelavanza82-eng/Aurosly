@@ -40,9 +40,9 @@ object UpdateNotificationHelper {
 
         // Direct download URL format from convxupdater - use the full tag (vX.X.X or bX.X.X) or nightly link
         val apkUrl = if (versionName.contains("nightly", ignoreCase = true)) {
-            "https://nightly.link/cosmictaserdev-creator/Convx/workflows/nightly.yml/main/convx-gms-nightly.zip"
+            "https://nightly.link/karelavanza82-eng/Aurosly/workflows/nightly.yml/main/convx-gms-nightly.zip"
         } else {
-            "https://github.com/cosmictaserdev-creator/Convx/releases/download/$versionName/convx-$versionName.apk"
+            "https://github.com/karelavanza82-eng/Aurosly/releases/download/$versionName/convx-$versionName.apk"
         }
         val intent = Intent(Intent.ACTION_VIEW, apkUrl.toUri())
 

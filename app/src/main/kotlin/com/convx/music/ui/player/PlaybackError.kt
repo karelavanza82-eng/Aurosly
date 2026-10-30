@@ -76,7 +76,7 @@ fun PlaybackError(
     // Copy the full error details, even when the on-screen message is truncated.
     val copyDetails = remember(error, rawErrorMessage) {
         buildString {
-            appendLine("Convx playback error")
+            appendLine("Aurora playback error")
             appendLine("code: ${getErrorCodeName(error.errorCode)} (${error.errorCode})")
             httpStatus?.let { appendLine("http: $it") }
             appendLine("detail: $rawErrorMessage")

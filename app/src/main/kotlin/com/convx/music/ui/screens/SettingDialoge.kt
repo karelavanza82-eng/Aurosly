@@ -135,7 +135,7 @@ fun SettingDialoge(
                     
                     Text(
                         modifier = Modifier.wrapContentWidth(),
-                        text = "CONVX",
+                        text = "AURORA",
                         style = AppTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 1.sp
@@ -325,28 +325,15 @@ fun SettingDialoge(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterHorizontally)
                 ) {
-                    TextButton(onClick = { uriHandler.openUri("https://cosmictaser.de5.net") }) {
-                        Text(
-                            text = "Privacy Policy",
-                            fontWeight = FontWeight.Light,
-                            color = onPrimaryColor,
-                            fontSize = 12.sp,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-                
-                    Text(text = "•", color = onPrimaryColor)
-                    TextButton(onClick = { uriHandler.openUri("https://cosmictaser.de5.net") }) {
-                        Text(
-                            text = "Terms of Service",
-                            fontWeight = FontWeight.Light,
-                            color = onPrimaryColor,
-                            fontSize = 12.sp,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
+                    Text(
+                        text = "Aurora • Android v1.0",
+                        fontWeight = FontWeight.Light,
+                        color = onPrimaryColor,
+                        fontSize = 12.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.padding(vertical = 12.dp)
+                    )
                 }
             }
         }

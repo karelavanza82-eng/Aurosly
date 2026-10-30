@@ -5,6 +5,7 @@
 
 package com.convx.music.ui.component
 
+import com.convx.music.ui.utils.auroraFadeOn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -57,6 +58,7 @@ fun IosSettingsGroup(
 
     Column(
         Modifier
+            .auroraFadeOn()
             .fillMaxWidth()
             .animateContentSize(animationSpec = tween(durationMillis = 220)),
     ) {

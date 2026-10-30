@@ -5,6 +5,7 @@
 
 package com.convx.music.ui.component
 
+import com.convx.music.ui.utils.auroraFadeOn
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animate
@@ -250,7 +251,7 @@ inline fun ListItem(
     }
     // Skip the background draw for inactive, unselected rows.
     val hasHighlight = highlight != Color.Transparent
-    ArtworkSourceHost(modifier) { sourceModifier ->
+    ArtworkSourceHost(modifier.auroraFadeOn()) { sourceModifier ->
     Column(sourceModifier) {
         if (flat && leadingDivider) {
             HorizontalDivider(
@@ -539,7 +540,7 @@ fun GridItem(
 
     val sizeModifier = if (fillMaxWidth) Modifier.fillMaxWidth() else Modifier.width(gridHeight * thumbnailRatio)
 
-    ArtworkSourceHost(modifier) { sourceModifier ->
+    ArtworkSourceHost(modifier.auroraFadeOn()) { sourceModifier ->
     Column(
         horizontalAlignment = horizontalAlignment,
         modifier = sourceModifier
