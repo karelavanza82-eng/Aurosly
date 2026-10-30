@@ -1,5 +1,5 @@
 /**
- * Convx Project (C) 2026
+ * Aurora Project (C) 2026
  * Licensed under GPL-3.0 | See git history for contributors
  */
 
@@ -35,7 +35,9 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.convx.music.R
+import androidx.compose.ui.graphics.lerp
 import kotlin.math.PI
+import kotlin.math.cos
 import kotlin.math.hypot
 import kotlin.math.pow
 import kotlin.math.sin
@@ -122,6 +124,27 @@ fun ConvxIntro(onFinished: () -> Unit) {
                 }
             }
 
+            // Aurora snake: a tapering trail of beads orbiting the disc with a gentle
+            // body wave. Fixed bead count and plain circles keep the frame cost flat.
+            val snakeIn = phase(t, SNAKE_START, SNAKE_END)
+            val snakeFade = phase(t, SNAKE_START, SNAKE_START + 180f) * (1f - phase(t, ZOOM_START, ZOOM_START + 220f))
+            if (snakeFade > 0f) {
+                val head = -PI.toFloat() / 2f + 3f * PI.toFloat() * outCubic(snakeIn)
+                val orbit = r0 * 1.6f
+                val bead = 6.dp.toPx()
+                for (i in 0 until SNAKE_SEGMENTS) {
+                    val k = i / SNAKE_SEGMENTS.toFloat()
+                    val a = head - i * SNAKE_SPACING
+                    val wave = sin(i * 0.55f - t / 70f) * r0 * 0.09f
+                    val rr = orbit + wave
+                    drawCircle(
+                        color = lerp(AuroraTeal, AuroraViolet, k).copy(alpha = snakeFade * (1f - k)),
+                        radius = bead * (1f - 0.75f * k),
+                        center = Offset(c.x + rr * cos(a), c.y + rr * sin(a)),
+                    )
+                }
+            }
+
             val beat = BEATS_MS.sumOf { pulse(t - it).toDouble() }.toFloat()
             val zoom = inCubic(phase(t, ZOOM_START, ZOOM_END))
             val discIn = outBack(phase(t, 0f, 450f))
@@ -145,6 +168,12 @@ fun ConvxIntro(onFinished: () -> Unit) {
 }
 
 private const val TOTAL_MS = 1700f
+private const val SNAKE_START = 80f
+private const val SNAKE_END = 1150f
+private const val SNAKE_SEGMENTS = 28
+private const val SNAKE_SPACING = 0.085f
+private val AuroraTeal = Color(0xFF4FF0D2)
+private val AuroraViolet = Color(0xFF8E7CFF)
 private const val ZOOM_START = 1000f
 private const val ZOOM_END = 1480f
 private const val REVEAL_START = 1400f

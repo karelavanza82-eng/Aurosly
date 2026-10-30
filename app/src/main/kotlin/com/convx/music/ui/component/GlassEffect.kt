@@ -133,6 +133,9 @@ enum class GlassStyle {
 
     /** Translucent tint without backdrop capture or blur. */
     TRANSPARENT,
+
+    /** Liquid glass with a deeper, more saturated frosted blur. */
+    LIQUID_PREMIUM,
 }
 
 /** Uses a translucent tint when selected or when RenderEffect is unsupported. */
@@ -150,6 +153,9 @@ internal const val LENS_MAX_DP = 48f
 
 /** Extra blur applied to the full-screen player's background. */
 internal const val PLAYER_BLUR_MULTIPLIER = 4f
+
+private const val PREMIUM_BLUR_MULTIPLIER = 2.2f
+private const val PREMIUM_SATURATION_MULTIPLIER = 1.25f
 
 /** Minimum backdrop resolution used for heavily blurred surfaces. */
 internal const val MIN_GLASS_RESOLUTION_SCALE = 0.30f
@@ -322,8 +328,9 @@ fun Modifier.liquidGlass(
     // Pixel-sized effect parameters operate on the backdrop layer at its recorded
     // resolution, so they are pre-multiplied by the resolution scale to keep the
     // same visual size.
-    val blurPx = with(density) { blurRadiusDp.dp.toPx() } * resolutionScale
-    val saturation = glassSaturation(config.vibrancy)
+    val premium = config.style == GlassStyle.LIQUID_PREMIUM
+    val blurPx = with(density) { blurRadiusDp.dp.toPx() } * resolutionScale * (if (premium) PREMIUM_BLUR_MULTIPLIER else 1f)
+    val saturation = glassSaturation(config.vibrancy) * (if (premium) PREMIUM_SATURATION_MULTIPLIER else 1f)
     val lensHeightPx = with(density) { (config.lensHeight * LENS_MAX_DP).dp.toPx() } * resolutionScale
     val lensAmountPx = with(density) { (config.lensAmount * LENS_MAX_DP).dp.toPx() } * resolutionScale
     val ambientColor = LocalAmbientBackgroundColor.current.value

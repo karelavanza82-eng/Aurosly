@@ -143,7 +143,7 @@ Output MUST be a JSON array with EXACTLY $lineCount strings."""
                 if (apiKey.isNotBlank()) addHeader("Authorization", "Bearer ${apiKey.trim()}")
             }
             .addHeader("Content-Type", "application/json")
-            .addHeader("HTTP-Referer", "https://github.com/cosmictaserdev-creator/Convx")
+            .addHeader("HTTP-Referer", "https://github.com/karelavanza82-eng/Aurosly")
             .addHeader("X-Title", "convx")
             .post(jsonBody.toString().toRequestBody(JSON))
             .build()

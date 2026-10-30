@@ -137,7 +137,7 @@ class AxionEqViewModel @Inject constructor(
     }
 
     private fun tuningProfile() = SavedEQProfile(
-        id = "vivi_tuning", name = "Custom tuning", deviceModel = "Convx Equalizer",
+        id = "vivi_tuning", name = "Custom tuning", deviceModel = "Aurora Equalizer",
         bands = _bands.value, preamp = _preamp.value,
     )
 

@@ -9,6 +9,7 @@ package com.convx.music.ui.player
 import androidx.lifecycle.repeatOnLifecycle
 
 import com.convx.music.ui.component.sf
+import com.convx.music.extensions.toggleRepeatMode
 import com.convx.music.ui.component.SymbolIcon
 import com.convx.music.ui.component.heroSideLiveBlur
 import com.convx.music.ui.utils.VibrantChromeInk
@@ -1618,13 +1619,24 @@ private fun PlayerV2Content(
                     Row(
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
-                            .widthIn(max = 302.dp) // 292pt glyph frame + 2x5: 61pt targets centred on 51pt glyphs
+                            .widthIn(max = 380.dp)
                             .fillMaxWidth()
                             .flamingoChrome(additiveChrome)
                             .graphicsLayer { if (additiveChrome) alpha = AdditiveChromeContentAlpha },
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        val shuffleOn by playerConnection.shuffleModeEnabled.collectAsStateWithLifecycle()
+                        IconButton(
+                            onClick = { playerConnection.player.shuffleModeEnabled = !shuffleOn },
+                            enabled = !isListenTogetherGuest,
+                            modifier = Modifier.size(48.dp).alpha(if (isListenTogetherGuest) 0.4f else 1f),
+                        ) {
+                            SpotifyToggleGlyph(R.drawable.shuffle, "Shuffle", shuffleOn, adaptivePrimary)
+                        }
+
+                        Spacer(modifier = Modifier.weight(1f))
+
                         val previousInteraction = remember { MutableInteractionSource() }
                         IconButton(
                             onClick = { if (!isListenTogetherGuest && canSkipPrevious) playerConnection.requestSkip(forward = false) },
@@ -1647,6 +1659,7 @@ private fun PlayerV2Content(
                         Spacer(modifier = Modifier.weight(1f))
 
                         val playInteraction = remember { MutableInteractionSource() }
+                        val playGlyphTint = if (adaptivePrimary.luminance() > 0.5f) Color.Black else Color.White
                         IconButton(
                             onClick = {
                                 if (isListenTogetherGuest) {
@@ -1657,11 +1670,12 @@ private fun PlayerV2Content(
                             },
                             interactionSource = playInteraction,
                             modifier = Modifier
-                                .size(72.dp)
-                                .transportPressDisc(playInteraction, adaptivePrimary.copy(alpha = 0.16f))
+                                .size(68.dp)
+                                .background(adaptivePrimary, androidx.compose.foundation.shape.CircleShape)
+                                .transportPressDisc(playInteraction, playGlyphTint.copy(alpha = 0.16f))
                         ) {
                             if (isListenTogetherGuest) {
-                                SymbolIcon(symbol = if (isMuted) sf("speaker.slash.fill") else sf("speaker.wave.3.fill"), contentDescription = if (isMuted) "Unmute" else "Mute", size = 38.5.dp, tint = adaptivePrimary)
+                                SymbolIcon(symbol = if (isMuted) sf("speaker.slash.fill") else sf("speaker.wave.3.fill"), contentDescription = if (isMuted) "Unmute" else "Mute", size = 30.dp, tint = playGlyphTint)
                             } else {
                                 AnimatedPlayerGlyph(
                                     modifier = Modifier.playGlyphPress(playInteraction),
@@ -1670,9 +1684,9 @@ private fun PlayerV2Content(
                                     pauseSlot = PlayerIconSlot.V2_PAUSE,
                                     playFallback = R.drawable.flamingo_play,
                                     pauseFallback = R.drawable.flamingo_pause,
-                                    tint = adaptivePrimary,
-                                    playSize = 44.dp,
-                                    pauseSize = 44.dp,
+                                    tint = playGlyphTint,
+                                    playSize = 34.dp,
+                                    pauseSize = 34.dp,
                                     playDescription = "Play",
                                     pauseDescription = "Pause",
                                 )
@@ -1697,6 +1711,22 @@ private fun PlayerV2Content(
                                 tint = adaptivePrimary,
                                 modifier = Modifier.size(44.dp).skipGlyphPress(nextInteraction, direction = 1f),
                                 contentDescription = "Next",
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        val repeat by playerConnection.repeatMode.collectAsStateWithLifecycle()
+                        IconButton(
+                            onClick = { playerConnection.player.toggleRepeatMode() },
+                            enabled = !isListenTogetherGuest,
+                            modifier = Modifier.size(48.dp).alpha(if (isListenTogetherGuest) 0.4f else 1f),
+                        ) {
+                            SpotifyToggleGlyph(
+                                if (repeat == androidx.media3.common.Player.REPEAT_MODE_ONE) R.drawable.repeat_one else R.drawable.repeat,
+                                "Repeat",
+                                repeat != androidx.media3.common.Player.REPEAT_MODE_OFF,
+                                adaptivePrimary,
                             )
                         }
                     }
@@ -2516,6 +2546,27 @@ private fun FadeSwapText(
                 iterations = if (scroll) Int.MAX_VALUE else 0,
                 initialDelayMillis = 1200,
             ),
+        )
+    }
+}
+
+/** Spotify-style toggle: dimmed when off, accent tinted with a dot underneath when on. */
+@Composable
+private fun SpotifyToggleGlyph(icon: Int, description: String, active: Boolean, tint: Color) {
+    val color = if (active) com.convx.music.ui.theme.LocalAccentColor.current else tint.copy(alpha = 0.7f)
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        androidx.compose.foundation.Image(
+            painter = painterResource(icon),
+            contentDescription = description,
+            colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(color),
+            modifier = Modifier.size(24.dp),
+        )
+        Box(
+            Modifier
+                .padding(top = 3.dp)
+                .size(4.dp)
+                .alpha(if (active) 1f else 0f)
+                .background(color, androidx.compose.foundation.shape.CircleShape)
         )
     }
 }

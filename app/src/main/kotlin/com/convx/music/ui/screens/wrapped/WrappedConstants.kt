@@ -8,5 +8,5 @@ import java.util.Calendar
 
 object WrappedConstants {
     val YEAR = Calendar.getInstance().get(Calendar.YEAR)
-    val PLAYLIST_NAME = "Convx $YEAR"
+    val PLAYLIST_NAME = "Aurora $YEAR"
 }

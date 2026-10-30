@@ -23,10 +23,10 @@ import java.io.InputStream
 
 /** Exports a copy of downloaded audio and optional sidecars to shared storage. */
 object DownloadExporter {
-    const val FOLDER = "Download/Convx"
+    const val FOLDER = "Download/Aurora"
 
     /** Cover and canvas files live in a hidden folder so Gallery never lists them next to the audio. */
-    private const val ART_FOLDER = "Download/Convx/.artwork"
+    private const val ART_FOLDER = "Download/Aurora/.artwork"
 
     class Package(
         val songId: String,

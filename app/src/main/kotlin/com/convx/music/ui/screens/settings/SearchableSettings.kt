@@ -48,7 +48,7 @@ fun getAllSearchableSettings(): List<SearchableSetting> {
         SearchableSetting(stringResource(R.string.theme), null, "Appearance", "settings/appearance/theme"),
         SearchableSetting("App Font", null, "Appearance", "settings/appearance/font"),
         SearchableSetting("Canvas", null, "Appearance", "settings/appearance/canvas"),
-        SearchableSetting("Convx Lyrics effects", "Configure Convx Lyrics font, text size, glow and blur", "Lyrics", "settings/lyrics", keywords = "convx lyrics animation font typeface size text glow blur"),
+        SearchableSetting("Aurora Lyrics effects", "Configure Aurora Lyrics font, text size, glow and blur", "Lyrics", "settings/lyrics", keywords = "convx lyrics animation font typeface size text glow blur"),
         SearchableSetting("Player Theme", null, "Appearance", "settings/appearance/playertheme"),
         SearchableSetting("Liquid Glass", null, "Appearance", "settings/appearance/liquidglass"),
         SearchableSetting("Liquid Glass advanced controls", "Glass style, tint, highlights, lens and component settings", "Appearance", "settings/appearance/liquidglass/advanced"),
