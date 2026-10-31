@@ -102,7 +102,7 @@ fun WrappedScreenContent(navController: NavController) {
             val text = "My Replay: ${nf.format(state.totalMinutes)} minutes, " +
                 "${nf.format(state.uniqueSongCount)} songs" +
                 (state.topArtists.firstOrNull()?.let { ", top artist ${it.artist.name}" } ?: "") +
-                " — Convx"
+                " — Aurora"
             val send = android.content.Intent(android.content.Intent.ACTION_SEND)
                 .setType("text/plain")
                 .putExtra(android.content.Intent.EXTRA_TEXT, text)

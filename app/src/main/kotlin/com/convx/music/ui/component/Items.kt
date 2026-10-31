@@ -250,7 +250,7 @@ inline fun ListItem(
     }
     // Skip the background draw for inactive, unselected rows.
     val hasHighlight = highlight != Color.Transparent
-    ArtworkSourceHost(modifier) { sourceModifier ->
+    ArtworkSourceHost(modifier.scrollFadeIn()) { sourceModifier ->
     Column(sourceModifier) {
         if (flat && leadingDivider) {
             HorizontalDivider(

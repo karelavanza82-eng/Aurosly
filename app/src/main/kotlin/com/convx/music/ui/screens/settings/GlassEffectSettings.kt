@@ -172,7 +172,7 @@ fun GlassEffectSettings(
         LiquidGlassSurfaceTintColorKey, defaultValue = 0
     )
     val (glassStyle, onGlassStyleChange) = rememberEnumPreference(
-        LiquidGlassStyleKey, defaultValue = GlassStyle.LIQUID
+        LiquidGlassStyleKey, defaultValue = GlassStyle.LIQUID_PREMIUM
     )
     val (puckColorInt, onPuckColorChange) = rememberPreference(
         LiquidGlassPuckColorKey, defaultValue = 0
@@ -444,6 +444,7 @@ fun GlassEffectSettings(
                                     GlassStyle.LIQUID -> R.string.liquid_glass_style_liquid
                                     GlassStyle.BLUR -> R.string.liquid_glass_style_blur
                                     GlassStyle.TRANSPARENT -> R.string.liquid_glass_style_transparent
+                                    GlassStyle.LIQUID_PREMIUM -> R.string.liquid_glass_style_premium
                                 }
                             )
                         )
@@ -885,6 +886,7 @@ fun GlassEffectSettings(
                         GlassStyle.LIQUID -> R.string.liquid_glass_style_liquid to R.string.liquid_glass_style_liquid_desc
                         GlassStyle.BLUR -> R.string.liquid_glass_style_blur to R.string.liquid_glass_style_blur_desc
                         GlassStyle.TRANSPARENT -> R.string.liquid_glass_style_transparent to R.string.liquid_glass_style_transparent_desc
+                        GlassStyle.LIQUID_PREMIUM -> R.string.liquid_glass_style_premium to R.string.liquid_glass_style_premium_desc
                     }
                     Column(
                         modifier = Modifier

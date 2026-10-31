@@ -506,7 +506,7 @@ fun ContentAdvancedSettings(
                     onClick = {
                         clientProbeOutput?.let { text ->
                             val clipboard = context.getSystemService(ClipboardManager::class.java)
-                            clipboard?.setPrimaryClip(ClipData.newPlainText("Convx client probe", text))
+                            clipboard?.setPrimaryClip(ClipData.newPlainText("Aurora client probe", text))
                         }
                         showClientProbeDialog = false
                     },

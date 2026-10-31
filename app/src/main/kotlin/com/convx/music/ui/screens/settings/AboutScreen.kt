@@ -66,9 +66,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.convx.music.BuildConfig
 import com.convx.music.LocalPlayerAwareWindowInsets
-import com.convx.music.constants.DonationKofiUrl
-import com.convx.music.constants.DonationUpiId
-import com.convx.music.constants.DonationUpiUri
 import com.convx.music.R
 import com.convx.music.ui.component.IosSettingsGroup
 import com.convx.music.ui.component.IosSettingsItem
@@ -145,7 +142,7 @@ fun AboutScreen(
                 )
 
                 Text(
-                    text = "v${BuildConfig.VERSION_NAME} • ${stringResource(if (BuildConfig.IS_NIGHTLY) R.string.build_nightly else R.string.build_stable)}",
+                    text = "Android v${BuildConfig.VERSION_NAME}",
                     style = AppTheme.typography.titleMedium,
                     color = AppTheme.colorScheme.primary
                 )
@@ -162,48 +159,10 @@ fun AboutScreen(
                     description = { Text(stringResource(R.string.app_developer), color = AppTheme.colorScheme.primary) },
                     tintIcon = false,
                     iconShape = cookieShape,
-                    onClick = { uriHandler.safeOpenUri(context, "https://github.com/cosmictaserdev-creator") }
-                )
-            )
-        )
-        Spacer(modifier = Modifier.height(27.dp))
-
-        // Community Section
-        IosSettingsGroup(
-            title = stringResource(R.string.community_section),
-            items = listOf(
-                IosSettingsItem(
-                    icon = rememberVectorPainter(SfSymbols.Monochrome.SFChevronLeftForwardslashChevronRight),
-                    title = { Text(stringResource(R.string.github_repository)) },
-                    description = { Text(stringResource(R.string.view_source_code)) },
-                    onClick = { uriHandler.safeOpenUri(context, "https://github.com/cosmictaserdev-creator/Convx") }
                 ),
                 IosSettingsItem(
-                    icon = rememberVectorPainter(SfSymbols.Monochrome.SFEllipsisBubble),
-                    title = { Text(stringResource(R.string.discord_channel)) },
-                    description = { Text(stringResource(R.string.join_discord)) },
-                    onClick = { uriHandler.safeOpenUri(context, "https://discord.gg/Ejeb4cmzfd") }
-                )
-            )
-        )
-
-        Spacer(modifier = Modifier.height(27.dp))
-
-        // Support Section
-        IosSettingsGroup(
-            title = stringResource(R.string.support_section),
-            items = listOf(
-                IosSettingsItem(
-                    icon = rememberVectorPainter(SfSymbols.Monochrome.SFHeart),
-                    title = { Text(stringResource(R.string.support_upi)) },
-                    description = { Text(DonationUpiId) },
-                    onClick = { uriHandler.safeOpenUri(context, DonationUpiUri) }
-                ),
-                IosSettingsItem(
-                    icon = rememberVectorPainter(SfSymbols.Monochrome.SFHeart),
-                    title = { Text(stringResource(R.string.support_kofi)) },
-                    description = { Text(stringResource(R.string.support_kofi_desc)) },
-                    onClick = { uriHandler.safeOpenUri(context, DonationKofiUrl) }
+                    icon = rememberVectorPainter(SfSymbols.Monochrome.SFInfoCircle),
+                    title = { Text(stringResource(R.string.project_location)) },
                 ),
             )
         )
@@ -226,8 +185,7 @@ fun AboutScreen(
                 IosSettingsItem(
                     icon = rememberVectorPainter(SfSymbols.Monochrome.SFTextDocument),
                     title = { Text(stringResource(R.string.license)) },
-                    description = { Text("GPL-3.0 • Free Open Source Software") },
-                    onClick = { uriHandler.safeOpenUri(context, "https://github.com/cosmictaserdev-creator/Convx/blob/main/LICENSE") }
+                    description = { Text("GPL-3.0") },
                 ),
             )
         )

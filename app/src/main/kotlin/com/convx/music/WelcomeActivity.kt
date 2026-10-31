@@ -70,11 +70,8 @@ import androidx.compose.material.icons.rounded.SystemUpdate
 import androidx.compose.material.icons.rounded.CloudDownload
 import androidx.compose.material.icons.rounded.HighQuality
 import androidx.compose.material.icons.rounded.Lyrics
-import androidx.compose.material.icons.rounded.Gavel
 import androidx.compose.material.icons.rounded.Favorite
-import androidx.compose.material.icons.rounded.Terminal
 import androidx.compose.material.icons.rounded.BlurOn
-import androidx.compose.material.icons.rounded.Forum
 import com.composables.sfsymbols.SfSymbols
 import com.composables.sfsymbols.monochrome.SFEllipsisBubble
 import com.convx.music.ui.ios.compat.Button
@@ -111,7 +108,6 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
@@ -134,7 +130,6 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.convx.music.constants.IsFirstRunKey
 import com.convx.music.ui.theme.ConvxTheme
-import com.convx.music.ui.utils.safeOpenUri
 import com.convx.music.utils.dataStore
 import com.convx.music.utils.get
 import kotlinx.coroutines.flow.first
@@ -208,7 +203,6 @@ val GoogleSansFlex = FontFamily(
 @Composable
 fun WelcomePagerScreen(onFinished: () -> Unit) {
     val context = LocalContext.current
-    val uriHandler = LocalUriHandler.current
     val scope = rememberCoroutineScope()
     val commonAnimSpec = tween<Float>(durationMillis = 200, easing = FastOutSlowInEasing)
     val commonDpAnimSpec = tween<Dp>(durationMillis = 200, easing = FastOutSlowInEasing)
@@ -483,82 +477,6 @@ fun WelcomePagerScreen(onFinished: () -> Unit) {
             }
         ),
         OnboardingPageInfo(
-            content = { _ ->
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    Spacer(modifier = Modifier.height(80.dp))
-
-                    Text(
-                        text = "Join our",
-                        style = thinHeaderStyle,
-                        color = AppTheme.colorScheme.onBackground
-                    )
-                    Text(
-                        text = "Community",
-                        fontFamily = GoogleSansFlex,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 48.sp,
-                        color = AppTheme.colorScheme.primary,
-                        lineHeight = 56.sp
-                    )
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Text(
-                        text = "Convx is open-source and depends on community support to grow. Your help makes a difference!",
-                        style = AppTheme.typography.bodyLarge.copy(
-                            fontFamily = GoogleSansFlex
-                        ),
-                        color = AppTheme.colorScheme.onSurfaceVariant
-                    )
-
-                    Spacer(modifier = Modifier.height(32.dp))
-
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .verticalScroll(rememberScrollState())
-                    ) {
-                        PermissionCard(
-                            icon = rememberVectorPainter(Icons.Rounded.Star),
-                            iconColor = Color(0xFFfff1a8),
-                            iconTint = Color(0xFF8d6e00),
-                            title = "Star on GitHub",
-                            description = "Help us reach more people by starring our repository.",
-                            shape = topCardShape,
-                            control = {
-                                SymbolIcon(symbol = sf("chevron.right"), contentDescription = null, tint = AppTheme.colorScheme.onSurfaceVariant)
-                            },
-                            onClick = {
-                                uriHandler.safeOpenUri(context, "https://github.com/cosmictaserdev-creator/Convx")
-                            }
-                        )
-
-                        Spacer(modifier = Modifier.height(2.dp))
-
-                        PermissionCard(
-                            icon = rememberVectorPainter(SfSymbols.Monochrome.SFEllipsisBubble),
-                            iconColor = Color(0xFF67d4ff),
-                            iconTint = Color(0xFF004e5d),
-                            title = "Join Discord",
-                            description = "Get the latest updates and chat with the community.",
-                            shape = bottomCardShape,
-                            control = {
-                                SymbolIcon(symbol = sf("chevron.right"), contentDescription = null, tint = AppTheme.colorScheme.onSurfaceVariant)
-                            },
-                            onClick = {
-                                uriHandler.safeOpenUri(context, "https://discord.gg/Ejeb4cmzfd")
-                            }
-                        )
-
-                        Spacer(modifier = Modifier.height(100.dp))
-                    }
-                }
-            }
-        ),
-        OnboardingPageInfo(
             content = { onUpdateScroll ->
                 Column(
                     modifier = Modifier.fillMaxSize(),
@@ -650,18 +568,7 @@ fun WelcomePagerScreen(onFinished: () -> Unit) {
                                 iconTint = Color(0xFF1c0062),
                                 title = stringResource(com.convx.music.R.string.feat_glass_title),
                                 description = stringResource(com.convx.music.R.string.feat_glass_desc),
-                                shape = middleCardShape
-                            )
-
-                            Spacer(modifier = Modifier.height(2.dp))
-
-                            FeatureCard(
-                                icon = rememberVectorPainter(Icons.Rounded.Forum),
-                                iconColor = Color(0xFF67d4ff),
-                                iconTint = Color(0xFF004e5d),
-                                title = stringResource(com.convx.music.R.string.feat_discord_title),
-                                description = stringResource(com.convx.music.R.string.feat_discord_desc),
-                                shape = middleCardShape
+                                shape = if (BuildConfig.FLAVOR.contains("gms", ignoreCase = true)) middleCardShape else bottomCardShape
                             )
 
                             if (BuildConfig.FLAVOR.contains("gms", ignoreCase = true)) {
@@ -673,31 +580,9 @@ fun WelcomePagerScreen(onFinished: () -> Unit) {
                                     iconTint = Color(0xFF004e5d),
                                     title = stringResource(com.convx.music.R.string.feat_update_title),
                                     description = stringResource(com.convx.music.R.string.feat_update_desc),
-                                    shape = middleCardShape
+                                    shape = bottomCardShape
                                 )
                             }
-
-                            Spacer(modifier = Modifier.height(2.dp))
-
-                            FeatureCard(
-                                icon = rememberVectorPainter(Icons.Rounded.Gavel),
-                                iconColor = Color(0xFFb6c6ed),
-                                iconTint = Color(0xFF001b3f),
-                                title = stringResource(com.convx.music.R.string.feat_license_title),
-                                description = stringResource(com.convx.music.R.string.feat_license_desc),
-                                shape = middleCardShape
-                            )
-
-                            Spacer(modifier = Modifier.height(2.dp))
-
-                            FeatureCard(
-                                icon = rememberVectorPainter(Icons.Rounded.Terminal),
-                                iconColor = Color(0xFFcabeff),
-                                iconTint = Color(0xFF1c0062),
-                                title = stringResource(com.convx.music.R.string.feat_github_title),
-                                description = stringResource(com.convx.music.R.string.feat_github_desc),
-                                shape = bottomCardShape
-                            )
 
                             Spacer(modifier = Modifier.height(100.dp))
                         }

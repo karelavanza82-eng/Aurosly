@@ -32,7 +32,7 @@ import com.convx.music.utils.rememberPreference
 import com.materialkolor.score.Score
 import com.convx.music.ui.theme.colorengine.ColorEngine
 
-val DefaultThemeColor = AppleTokens.AccentRed
+val DefaultThemeColor = Color(0xFF8E7CFF)
 
 /**
  * The user's chosen accent color, provided app-wide. ONLY the nav bar uses this

@@ -197,32 +197,6 @@ fun AccountSettingsScreen(
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
-            // Token / Advanced Login Section
-            IosSettingsGroup(
-                title = stringResource(R.string.advanced_login),
-                items = listOf(
-                    IosSettingsItem(
-                        icon = rememberVectorPainter(SfSymbols.Monochrome.SFKey),
-                        title = {
-                            Text(
-                                when {
-                                    !isLoggedIn -> stringResource(R.string.advanced_login)
-                                    showToken -> stringResource(R.string.token_shown)
-                                    else -> stringResource(R.string.token_hidden)
-                                }
-                            )
-                        },
-                        onClick = {
-                            if (!isLoggedIn) showTokenEditor = true
-                            else if (!showToken) showToken = true
-                            else showTokenEditor = true
-                        }
-                    )
-                )
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
             // Sync & Content Section
             if (isLoggedIn) {
                 IosSettingsGroup(
@@ -296,23 +270,6 @@ fun AccountSettingsScreen(
             )
 
             Spacer(modifier = Modifier.height(16.dp))
-
-            // Quick Links Section
-            IosSettingsGroup(
-                title = stringResource(R.string.integrations),
-                items = buildList {
-                    add(
-                        IosSettingsItem(
-                            icon = rememberVectorPainter(SfSymbols.Monochrome.SFWrenchAdjustable),
-                            title = { Text(stringResource(R.string.integrations)) },
-                            onClick = { navController.navigate("settings/integrations") }
-                        )
-                    )
-                }
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
 
 
         if (showTokenEditor) {
